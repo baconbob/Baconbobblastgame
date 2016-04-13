@@ -11,11 +11,9 @@ local y1 = 50
 local sfx
 local speed = 2
 local mouse
-local Enemy = require "enemy"
+local Enemy = require "Enemy"
 local enemies = {}
 local milliseconds = 0
-
-
 
 function love.draw()
   love.graphics.draw(eft, 0, 0, r, 1, 1)
@@ -29,16 +27,17 @@ function love.draw()
   love.graphics.draw(mainchar, x1, y1, 0, 1, 1, ox, oy, kx, ky)
   love.graphics.print("Current speed:" .. speed,10,25)
   love.graphics.print("Current position x:" .. x1 .. " \nCurrent position y:" .. y1,10,50)
-  for k,v in pairs(enemies) do
-      v:display()
-  end
+
+  for i = 1, #enemies do
+	enemies[i]:draw()
+	end
 end
 
 
 function love.update(dt)
   milliseconds = milliseconds+ dt
-  if milliseconds >= 1000
-  then enemies[#enemies+1] = Enemy.new(math.random(1,width),math.random(1,height),"enemy.png") end
+  enemies[#enemies+1] = Enemy.new("GABENN.png", math.random(0, width), math.random(0, height))
+	  milliseconds = 0
   if invertspin then
     rotation = rotation + math.rad(accerelation)
   else
