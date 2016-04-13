@@ -35,9 +35,12 @@ end
 
 
 function love.update(dt)
-  milliseconds = milliseconds+ dt
+  milliseconds = milliseconds + dt * 1000
+  print(milliseconds)
+  if milliseconds >= 3000 then
   enemies[#enemies+1] = Enemy.new("GABENN.png", math.random(0, width), math.random(0, height))
 	  milliseconds = 0
+  end
   if invertspin then
     rotation = rotation + math.rad(accerelation)
   else
