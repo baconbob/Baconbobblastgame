@@ -47,7 +47,7 @@ end
 function love.load()
   --mario = love.graphics.newImage("MARIO-BABY.png")
   --GABEN = love.graphics.newImage("GABENN.png")
-  love.window.setMode(0, 0,{fullscreen=true,vsync=true})
+  love.window.setMode(0, 0,{fullscreen=true,vsync=false})
   width = love.graphics.getWidth()
   height = love.graphics.getHeight()
   eft = love.graphics.newImage("space.jpg")
