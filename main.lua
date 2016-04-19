@@ -14,6 +14,8 @@ local mouse
 local Enemy = require "Enemy"
 local enemies = {}
 local milliseconds = 0
+local fraction = 1/10
+local object_to_main =  {}
 
 function love.draw()
   love.graphics.draw(eft, 0, 0, r, 1, 1)
@@ -33,11 +35,11 @@ function love.draw()
 	end
 end
 
-
 function love.update(dt)
-  milliseconds = milliseconds+ dt
-  enemies[#enemies+1] = Enemy.new("GABENN.png", math.random(0, width), math.random(0, height))
-	  milliseconds = 0
+  milliseconds = milliseconds + dt
+  if milliseconds >= 1
+  then enemies[#enemies+1] = Enemy.new("GABENN.png", math.random(0, width), math.random(0, height))
+	  milliseconds = 0  end
   if invertspin then
     rotation = rotation + math.rad(accerelation)
   else
@@ -55,12 +57,22 @@ function love.update(dt)
   if y1+75>height then y1=height-75 end
   if y1<0 then y1=0 end
   if x1<0 then x1=0 end
-
-
+  --[[for i,v in ipairs(enemies) do
+    object_to_main.x = x1 - v.x
+    object_to_main.y = y1 - v.y
+    v.x = v.x +(object_to_main.x* 0.1)
+    v.y = v.y +(object_to_main.y* 0.1)
+  end]] --THIS IS THE SHIT FOR COIN= POINTS
+  for k,v in pairs(enemies) do
+    v.x=v.x + x1*0.001
+    v.y=v.y + y1*0.001
+  end
 if speed > 2 then
  speed = speed * 0.996
  else speed = 2
  end
+
+
 end
 
 function love.load()
@@ -76,7 +88,7 @@ function love.load()
   mainchar = love.graphics.newImage("blyatt.png")
   sfx = love.audio.newSource("xplosion.wav","stream")
   love.physics.setMeter(64)
-
+  math.randomseed(os.time())
 end
 
 function love.keypressed(key)
