@@ -1,4 +1,5 @@
 local Enemy = {}
+local Vector_2 = require 'Vector_2'
 
 function Enemy.new(file, x, y)
 	self = {}
@@ -11,7 +12,24 @@ function Enemy.new(file, x, y)
 	self.image = love.graphics.newImage(file)
 	self.w = self.image:getWidth()
 	self.h = self.image:getHeight()
+	self.speed = 5
 	return self
+end
+
+function Enemy:update()
+	if self.moving then
+		direction = Vector_2.new(self.goal.x - self.start.x, self.goal.y - self.start.y):normalize()
+		move_vec = Vector_2.new(direction.x * self.speed, direction.y * self.speed)
+	
+		if Vector_2.new(self.x + move_vec.x - self.start.x, self.y + move_vec.y - self.start.y):length() > Vector_2.new(self.goal.x - self.start.x, self.goal.y - self.start.y):length() then
+			self.x = self.goal.x
+			self.y = self.goal.y
+			self.moving = false
+		else 
+			self.x = self.x + move_vec.x
+			self.y = self.y + move_vec.y
+		end
+	end
 end
 
 function Enemy:draw()
@@ -38,6 +56,12 @@ function Enemy:intersects(box)
 	if a_max <= a_min then return false end
 
 	return true
+end
+
+function Enemy:move_to(goal)
+	self.start = Vector_2.new(self.x, self.y)
+	self.goal = goal
+	self.moving = true
 end
 
 return Enemy
