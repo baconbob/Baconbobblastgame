@@ -112,7 +112,10 @@ if speed > 2 then
  end
  if hp <= 0 then gameover = love.window.showMessageBox("YOU LOSE, rush B next time pls", "try again or quit this shit?",buttons_1)
    if gameover == 1 then love.event.quit()
-   elseif gameover == 2 then resetgame() end
+   elseif gameover == 2 then resetgame() 
+   else 
+	   os.exit() 
+   end
  end
  end
 
@@ -143,7 +146,10 @@ function love.keypressed(key)
   if key == "escape" then
     local buttonpressed = love.window.showMessageBox("MENU", "What do you want to do blyat", buttons)
     if buttonpressed == 1 then love.event.quit()
-    elseif buttonpressed == 2 then end
+    elseif buttonpressed == 2 then 
+	else
+		love.event.quit()
+	 end
   end
   if key == "t" then invertspin=not invertspin end
   if key == "q" then sfx:play() end
